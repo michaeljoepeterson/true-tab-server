@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const passport = require('passport');
 const {PORT, DATABASE_URL,DOMAINS } = require('./config');
-const {userRouter} = require('./routers/router-exports');
+const {userRouter,chordRouter} = require('./routers/router-exports');
 const {localStrategy, jwtStrategy} = require('./auth/strategies');
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -11,7 +11,7 @@ const {router: authRouter} = require('./auth/router');
 
 const app = express();
 app.use(jsonParser);
-app.set('trust proxy', true)
+//app.set('trust proxy', true)
 /*
 app.use(function (req, res, next) {
     let origin = req.headers.origin;
@@ -34,6 +34,7 @@ passport.use(jwtStrategy);
 
 app.use('/api/users',userRouter);
 app.use('/api/auth/', authRouter);
+app.use('/api/chords/', chordRouter);
 
 function runServer( databaseUrl, port = PORT) {
     return new Promise((resolve, reject) => {
