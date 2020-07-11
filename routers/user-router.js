@@ -1,11 +1,11 @@
 const express = require('express');
 const {User} = require('../models/user');
 const router = express.Router();
-const {checkSecret,checkAdmin} = require('../tools/tool-exports');
+const {checkSecret,checkAdmin,checkAdminEmail} = require('../tools/tool-exports');
 const passport = require('passport');
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
-router.post('/admin',checkSecret,checkAdmin,(req,res) => {
+router.post('/admin',checkAdminEmail,checkSecret,checkAdmin,(req,res) => {
     const {email,password,level} = req.body;
 
     return User.hashPassword(password)
