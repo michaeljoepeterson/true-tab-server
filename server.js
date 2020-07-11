@@ -12,7 +12,7 @@ const {router: authRouter} = require('./auth/router');
 const app = express();
 app.use(jsonParser);
 //app.set('trust proxy', true)
-/*
+
 app.use(function (req, res, next) {
     let origin = req.headers.origin;
     let allowedOrigins = DOMAINS.split(',');
@@ -27,7 +27,7 @@ app.use(function (req, res, next) {
     }
     next();
 });
-*/
+
 
 passport.use(localStrategy);
 passport.use(jwtStrategy);
