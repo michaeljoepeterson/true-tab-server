@@ -14,7 +14,8 @@ const chordSchema = mongoose.Schema({
     notes:{type:Array},
     users:[{ type: mongoose.Schema.Types.ObjectId, ref: 'User', unique: false,  required: [false, 'No users found']}],
     degrees:{type:Array},
-    notePositions:[positionSchema]
+    notePositions:[positionSchema],
+    cretedBy:{ type: mongoose.Schema.Types.ObjectId, ref: 'User', unique: false,  required: [false, 'No users found']}
 });
 
 chordSchema.methods.serialize = function(){
