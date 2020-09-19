@@ -1,6 +1,3 @@
-const chordNote = require("../models/chord-note");
-const chordRouter = require("../routers/chord-router");
-
 class ChordNoteStruct{
     id;
     finger;

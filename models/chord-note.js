@@ -4,7 +4,7 @@ const ChordNoteStruct = require('../structs/chord-note');
 const chordNoteSchema = mongoose.Schema({
     fret: {type:Number,required:true},
     strings: {type:Array,required:true},
-    note: {type:String}
+    note: {type:String,required:true}
 });
 
 chordNoteSchema.methods.serialize = function(){
