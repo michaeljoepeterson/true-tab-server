@@ -1,31 +1,22 @@
 const mongoose = require('mongoose');
-//schema for each finger
-const positionSchema = mongoose.Schema({
-    image: {type:String,required:true},
-    finger: {type:Number,required:true},
-    fret: {type:Number,required:true},
-    strings: {type:Array,required:true},
-    note: {type:String},
-    degree: {type:Number}
-},{_id:false});
-
+const ChordStruct = require('../structs/chord');
+//add instrument and visibilty to own collections
 const chordSchema = mongoose.Schema({
     name: {type: String, required: true, unique:true},
     notes:{type:Array},
-    users:[{ type: mongoose.Schema.Types.ObjectId, ref: 'User', unique: false,  required: [false, 'No users found']}],
     degrees:{type:Array},
-    notePositions:[positionSchema],
-    cretedBy:{ type: mongoose.Schema.Types.ObjectId, ref: 'User', unique: false,  required: [false, 'No users found']}
+    chordNotes:[{ type: mongoose.Schema.Types.ObjectId, ref: 'ChordNote', unique: false, required: [false, 'No notes found']}],
+    createdBy:{ type: mongoose.Schema.Types.ObjectId, ref: 'User', unique: false,  required: [false, 'No users found']},
+    fingers:{type:Array,required: true},
+    visibility:{ type: mongoose.Schema.Types.ObjectId, ref: 'Visibility', unique: false,  required: [false, 'No users found']},
+    instrument:{ type: mongoose.Schema.Types.ObjectId, ref: 'Instrument', unique: false,  required: [false, 'No users found']}
 });
 
 chordSchema.methods.serialize = function(){
-	return {
-		id:this._id,
-		notes:this.notes,
-		users:this.users,
-		degrees:this.degrees,
-		notePositions:this.notePositions,
-	};
+    let notes = this.chordNotes ? this.chordNotes.map((note => note.serialize())) : [];
+    let user = this.createdBy.serialize();
+    let chord = new ChordStruct(this,notes,user);
+	return chord;
 };
 
 const Chord = mongoose.model("Chord",chordSchema);

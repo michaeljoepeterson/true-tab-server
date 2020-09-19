@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const passport = require('passport');
 const {PORT, DATABASE_URL,DOMAINS } = require('./config');
-const {userRouter,chordRouter} = require('./routers/router-exports');
+const {router:mainRouter} = require('./routers/router-exports');
 const {localStrategy, jwtStrategy} = require('./auth/strategies');
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -32,9 +32,8 @@ app.use(function (req, res, next) {
 passport.use(localStrategy);
 passport.use(jwtStrategy);
 
-app.use('/api/users',userRouter);
+app.use('/api',mainRouter);
 app.use('/api/auth/', authRouter);
-app.use('/api/chords/', chordRouter);
 
 function runServer( databaseUrl, port = PORT) {
     return new Promise((resolve, reject) => {
