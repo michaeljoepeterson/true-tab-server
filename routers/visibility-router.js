@@ -11,10 +11,11 @@ router.post('/',async (req,res) => {
     const {visibility} = req.body;
     try {
         const visibilityDb = await Visibility.create(visibility);
+
         return res.json({
             code: 200,
             message: 'visibility created',
-            chord: visibilityDb.serialize()
+            visibility: visibilityDb.serialize()
         });
     } catch (err) {
         console.log('error ', err);
