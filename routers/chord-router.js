@@ -4,6 +4,7 @@ const router = express.Router();
 const passport = require('passport');
 const jwtAuth = passport.authenticate('jwt', { session: false });
 const {checkChordNotes} = require('./helpers/chord-note-helper');
+const {searchChord} = require('./helpers/chord-helpers');
 
 router.use(jwtAuth);
 
@@ -37,15 +38,12 @@ router.post('/',async (req,res) => {
 });
 //get all chords
 router.get('/',async (req,res) => {
-    const {instrument} = req.query;
     try {
-        
-        let chords = await Chord.find().populate('chordNotes');
-        console.log(chords);
+        let chords = await searchChord(req.query)
         return res.json({
             code: 200,
-            message: 'chord created',
-            chords: chords.map(chord => chord.serialize())
+            message: 'chord found',
+            chords
         });
     } catch (err) {
         console.log('error ', err);

@@ -1,6 +1,4 @@
 const {ChordNote} = require('../../models/chord-note');
-const { Chord } = require('../../models/chords');
-
 
 const createChordNote = async (noteData) => {
     try{
