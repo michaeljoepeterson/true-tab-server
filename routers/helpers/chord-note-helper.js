@@ -82,4 +82,40 @@ const checkChordNotes = async (chordNotes) =>{
     }
 }
 
-module.exports = {createChordNote,checkChordNotes}
+const updateNote = async (id,note) => {
+    try{
+        await ChordNote.findByIdAndUpdate(id,{
+            $set:note
+        });
+
+        return true;
+    }
+    catch(e){
+        throw e;
+    }
+}
+
+const updateNotes = async (ids,chordNotes) =>{
+    let updateRequess = ids.map((id,i) => updateNote(id,chordNotes[i]));
+    try{
+        await Promise.all(updateRequess);
+        return true;
+    }
+    catch(e){
+        throw e;
+    }
+}
+//could optimize if needed by not updating newly created chords
+const checkNotesAndUpdate = async (chordNotes) => {
+    let ids = await checkChordNotes(chordNotes);
+
+    try{
+        await updateNotes(ids,chordNotes);
+        return ids;
+    }
+    catch(e){
+        throw e;
+    }
+}
+
+module.exports = {createChordNote,checkChordNotes,checkNotesAndUpdate}

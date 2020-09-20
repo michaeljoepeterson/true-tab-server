@@ -4,7 +4,7 @@ const router = express.Router();
 const passport = require('passport');
 const jwtAuth = passport.authenticate('jwt', { session: false });
 const {checkChordNotes} = require('./helpers/chord-note-helper');
-const {searchChord,deleteChord} = require('./helpers/chord-helpers');
+const {searchChord,deleteChord,updateChord} = require('./helpers/chord-helpers');
 
 router.use(jwtAuth);
 
@@ -14,7 +14,7 @@ router.post('/',async (req,res) => {
     try {
         const noteIds = await checkChordNotes(chord.chordNotes);
         chord.chordNotes = noteIds;
-        let chord_1 = await Chord.create(chord)
+        let chord_1 = await Chord.create(chord);
         return res.json({
             code: 200,
             message: 'chord created',
@@ -78,11 +78,31 @@ router.get('/search',async (req,res) => {
 router.delete('/:id',async (req,res) => {
     const {id} = req.params;
     try {
-        console.log(id);
         await deleteChord(id);
         return res.json({
             code: 200,
             message: 'chord deleted',
+        });
+    } catch (err) {
+        console.log('error ', err);
+        return res.json({
+            code: 500,
+            message: 'an error occured',
+            error: err
+        });
+    }
+});
+
+router.put('/:id',async (req,res) => {
+    const {id} = req.params;
+    const {chord} = req.body;
+    try {
+        const noteIds = await checkChordNotes(chord.chordNotes);
+        chord.chordNotes = noteIds;
+        await updateChord(id,chord);
+        return res.json({
+            code: 200,
+            message: 'chord updated',
         });
     } catch (err) {
         console.log('error ', err);

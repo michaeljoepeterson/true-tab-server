@@ -55,4 +55,17 @@ const deleteChord = async (id) => {
     }
 }
 
-module.exports = {searchChord,deleteChord};
+const updateChord = async (id,chord) => {
+    try{
+        console.log('update data: ',chord);
+        await Chord.findByIdAndUpdate(id,{
+            $set:chord
+        });
+        return 'updated';
+    }
+    catch(e){
+        throw e;
+    }
+}
+
+module.exports = {searchChord,deleteChord,updateChord};
