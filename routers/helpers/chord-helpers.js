@@ -45,4 +45,14 @@ const searchChord = async (params) => {
 
 }
 
-module.exports = {searchChord};
+const deleteChord = async (id) => {
+    try{
+        await Chord.findOneAndDelete({_id:id})
+        return 'deleted';
+    }
+    catch(e){
+        throw e;
+    }
+}
+
+module.exports = {searchChord,deleteChord};
