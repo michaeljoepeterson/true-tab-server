@@ -14,7 +14,10 @@ const chordSchema = mongoose.Schema({
 
 chordSchema.methods.serialize = function(){
     let notes = this.chordNotes ? this.chordNotes.map((note => note.serialize())) : [];
-    let user = this.createdBy.serialize();
+    let user = null;
+    if(this.createdBy){
+        user = this.createdBy.serialize();
+    }
     let chord = new ChordStruct(this,notes,user);
 	return chord;
 };

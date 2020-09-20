@@ -16,7 +16,9 @@ class ChordStruct{
             this.id = chord.id;
             this.name = chord.name;
             this.degrees = chord.degrees;
-            this.createdBy = user;
+            if(user){
+                this.createdBy = user;
+            }
             this.fingers = chord.fingers;
             this.visibility = chord.visibility;
             this.instrument = chord.instrument;

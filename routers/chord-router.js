@@ -35,5 +35,46 @@ router.post('/',async (req,res) => {
     }
     
 });
+//get all chords
+router.get('/',async (req,res) => {
+    const {instrument} = req.query;
+    try {
+        
+        let chords = await Chord.find().populate('chordNotes');
+        console.log(chords);
+        return res.json({
+            code: 200,
+            message: 'chord created',
+            chords: chords.map(chord => chord.serialize())
+        });
+    } catch (err) {
+        console.log('error ', err);
+        return res.json({
+            code: 500,
+            message: 'an error occured',
+            error: err
+        });
+    }
+});
+
+router.get('/search',async (req,res) => {
+    const {id,name} = req.query;
+    try {
+        
+        let chords = await Chord.find()
+        return res.json({
+            code: 200,
+            message: 'chord created',
+            chord: chord_1
+        });
+    } catch (err) {
+        console.log('error ', err);
+        return res.json({
+            code: 500,
+            message: 'an error occured',
+            error: err
+        });
+    }
+});
 
 module.exports = {router};
