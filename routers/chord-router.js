@@ -13,11 +13,11 @@ router.post('/',async (req,res) => {
     try {
         const noteIds = await checkChordNotes(chord.chordNotes);
         chord.chordNotes = noteIds;
-        const chord_1 = await Chord.create(chord);
+        let chord_1 = await Chord.create(chord)
         return res.json({
             code: 200,
             message: 'chord created',
-            chord: chord_1.serialize()
+            chord: chord_1
         });
     } catch (err) {
         console.log('error ', err);

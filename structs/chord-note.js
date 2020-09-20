@@ -9,11 +9,12 @@ class ChordNoteStruct{
     constructor(chordNote){
         try{
             this.id = chordNote._id;
-            this.note = this.note;
-            this.strings = this.strings;
+            this.note = chordNote.note;
+            this.strings = chordNote.strings;
+            this.fret = chordNote.fret;
     
-            this.degree = this.degree ? this.degree :null;
-            this.finger = this.finger ? this.finger : null;
+            this.degree = chordNote.degree ? chordNote.degree :null;
+            this.finger = chordNote.finger ? chordNote.finger : null;
         }
         catch(e){
             throw {
